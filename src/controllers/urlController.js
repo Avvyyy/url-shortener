@@ -1,4 +1,16 @@
-const nanoid = require('nanoid').nanoid;
+// const nanoid = require('nanoid').nanoid;
+const crypto = require('crypto')
+
+function generateId(length=8) {
+	let id = "";
+	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_';
+	const bytes = crypto.randomBytes(length);
+	for (let i = 0; i < length; i++) {
+		const index  = bytes[i] % characters.length;
+		id += characters[index];
+	}
+	return id;
+}
 
 exports.getAllUrl = async (req, res) => {
     try {
@@ -12,7 +24,8 @@ exports.getAllUrl = async (req, res) => {
 exports.createShortenedUrl = async (req, res) => {
     try {
         const initial_url = req.body.initial_url;
-        const shortened_url = nanoid(10);
+        // const shortened_url = nanoid(10);
+        const shortened_url = generateId(10);
 
         const payload = {
             initial_url, shortened_url, clicks: 0
