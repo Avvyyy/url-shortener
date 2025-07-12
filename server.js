@@ -1,9 +1,8 @@
-// server.js
 require("dotenv").config();
 const express = require('express');
 const app = express();
-const router = require('./routes/app');
-const connectToMongo = require('./db_config/mongodbConfig');
+const urlRouter = require('./src/routes/urlRoutes');
+const connectToMongo = require('./src/config/db');
 
 (async () => {
     try {
@@ -15,7 +14,7 @@ const connectToMongo = require('./db_config/mongodbConfig');
         });
 
         app.use(express.json());
-        app.use(router);
+        app.use('/url' ,urlRouter);
 
         const port = process.env.PORT || 3000;
         app.listen(port, () => {
